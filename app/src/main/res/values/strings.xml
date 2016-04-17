@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ImageSearch</string>
+    <string name="enter_search_query">Enter search query</string>
+    <string name="image_search">Image search!</string>
+</resources>
