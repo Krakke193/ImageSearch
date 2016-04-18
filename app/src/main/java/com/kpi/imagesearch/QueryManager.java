@@ -9,8 +9,8 @@ import java.util.Map;
  * Created by Sasha on 17/4/16.
  * Implementation of builder pattern to ensure easy-way expanding of query combinations.
  */
-public class ImageSearchManager {
-    private static final String TAG = ImageSearchManager.class.getSimpleName();
+public class QueryManager {
+    private static final String TAG = QueryManager.class.getSimpleName();
     private static final String BASE_SEARCH_URL = "https://www.googleapis.com/customsearch/v1?";
 
     private String mKey;
@@ -42,8 +42,8 @@ public class ImageSearchManager {
             return this;
         }
 
-        public ImageSearchManager build() {
-            return new ImageSearchManager(this);
+        public QueryManager build() {
+            return new QueryManager(this);
         }
     }
 
@@ -67,7 +67,7 @@ public class ImageSearchManager {
         mAlt = alt;
     }
 
-    private ImageSearchManager(Builder builder) {
+    private QueryManager(Builder builder) {
         setKey(builder.mKey);
         setCx(builder.mCx);
         setSearchType(builder.mSearchType);

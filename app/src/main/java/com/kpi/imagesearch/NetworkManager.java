@@ -18,11 +18,11 @@ public class NetworkManager {
     private static final String RESPONSE_TYPE = "json";
 
     public void beginSearch(String qry) throws IOException {
-        ImageSearchManager imageSearchManager = new ImageSearchManager.Builder(Constants.API_KEY, Constants.CX, qry)
+        QueryManager queryManager = new QueryManager.Builder(Constants.API_KEY, Constants.CX, qry)
                 .setSearchType(SEARCH_TYPE)
                 .setResponseType(RESPONSE_TYPE)
                 .build();
-        URL url = imageSearchManager.getQueryUrl();
+        URL url = queryManager.getQueryUrl();
 
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
@@ -32,12 +32,12 @@ public class NetworkManager {
         String output;
         Log.v(TAG, "Output from Server .... \n");
         while ((output = br.readLine()) != null) {
-            Log.v(TAG, output);
+//            Log.v(TAG, output);
 
-//            if(output.contains("\"link\": \"")){
-//                String link=output.substring(output.indexOf("\"link\": \"")+("\"link\": \"").length(), output.indexOf("\","));
-//                Log.v(TAG, link);       //Will print the google search links
-//            }
+            if(output.contains("\"link\": \"")){
+                String link=output.substring(output.indexOf("\"link\": \"")+("\"link\": \"").length(), output.indexOf("\","));
+                Log.v(TAG, link);       //Will print the google search links
+            }
         }
         conn.disconnect();
     }

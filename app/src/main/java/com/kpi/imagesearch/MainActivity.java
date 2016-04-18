@@ -1,5 +1,6 @@
 package com.kpi.imagesearch;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -39,17 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void beginSearch() {
         final String searchParam = mEtSearchParams.getText().toString();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                NetworkManager networkManager = new NetworkManager();
-
-                try {
-                    networkManager.beginSearch(searchParam);
-                } catch (IOException e) {
-                    Log.e(TAG, "Failed to load images!", e);
-                }
-            }
-        }).start();
+        ThumbnailsActivity.startActivity(this, searchParam);
     }
 }
