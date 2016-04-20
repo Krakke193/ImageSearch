@@ -1,24 +1,14 @@
 package com.kpi.imagesearch;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Rect;
-import android.os.Handler;
-import android.os.Looper;
-import android.os.Message;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -27,6 +17,12 @@ import java.util.List;
 public class ThumbnailAdapter extends RecyclerView.Adapter<ThumbnailAdapter.ThumbnailViewHolder> {
 
     private List<String> mData;
+
+    private ImageManager mImageManager;
+
+    public ThumbnailAdapter() {
+        mImageManager = new ImageManager();
+    }
 
     public void setData(List<String> data) {
         mData = data;
@@ -43,40 +39,13 @@ public class ThumbnailAdapter extends RecyclerView.Adapter<ThumbnailAdapter.Thum
         final String urlStr = mData.get(position);
 
         holder.mTvLink.setText(urlStr);
-        final Handler handler = new Handler(Looper.getMainLooper()) {
-            @Override
-            public void handleMessage(Message msg) {
-                holder.mIvThumbnail.setImageBitmap((Bitmap) msg.obj);
-            }
-        };
-
-
-        new Thread(new Runnable() {
-            HttpURLConnection connection = null;
-
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL(urlStr);
-                    connection = (HttpURLConnection) url.openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setRequestProperty("Accept", "application/json");
-
-                    BitmapFactory.Options options = new BitmapFactory.Options();
-                    options.inSampleSize = 4;
-
-                    Bitmap retBitmap = BitmapFactory.decodeStream(connection.getInputStream(), null, options);
-
-                    Message completeMessage = handler.obtainMessage(1001, retBitmap);
-                    handler.sendMessage(completeMessage);
-                } catch (IOException e) {
-                    Log.e("TET", e.toString());
-                } finally {
-                    connection.disconnect();
-                }
-
-            }
-        }).start();
+        holder.mIvThumbnail.setImageDrawable(null);
+        holder.mRlPbHolder.setVisibility(View.GONE);
+        mImageManager.loadImageToTarget(
+                new WeakReference<>(holder.mIvThumbnail),
+                new WeakReference<ViewGroup>(holder.mRlPbHolder),
+                urlStr
+        );
     }
 
     @Override
@@ -86,18 +55,20 @@ public class ThumbnailAdapter extends RecyclerView.Adapter<ThumbnailAdapter.Thum
 
     @Override
     public void onViewRecycled(ThumbnailViewHolder holder) {
-        holder.mIvThumbnail.setImageBitmap(null);
+        holder.mIvThumbnail.setImageDrawable(null);
     }
 
     public class ThumbnailViewHolder extends RecyclerView.ViewHolder {
         private TextView mTvLink;
         private ImageView mIvThumbnail;
+        private RelativeLayout mRlPbHolder;
 
         public ThumbnailViewHolder(View itemView) {
             super(itemView);
 
             mTvLink = (TextView) itemView.findViewById(R.id.tv_item_thumbnail);
             mIvThumbnail = (ImageView) itemView.findViewById(R.id.iv_item_thumbnail);
+            mRlPbHolder = (RelativeLayout) itemView.findViewById(R.id.rl_pb_holder);
         }
     }
 }

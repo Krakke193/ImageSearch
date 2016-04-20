@@ -18,6 +18,7 @@ public class QueryManager {
     private String mQuery;
     private String mSearchType;
     private String mAlt;
+    private String mImgSize;
 
     public static class Builder {
         private final String mKey;
@@ -25,6 +26,7 @@ public class QueryManager {
         private final String mQuery;
         private String mSearchType;
         private String mAlt;
+        private String mImgSize;
 
         public Builder(String apiKey, String cx, String query) {
             mKey = apiKey;
@@ -42,8 +44,27 @@ public class QueryManager {
             return this;
         }
 
+        public Builder setImageSize(ImageSizes imageSize) {
+            switch (imageSize) {
+                case SMALL:
+                    mImgSize = "small";
+                    break;
+                case MEDIUM:
+                    mImgSize = "medium";
+                    break;
+                case LARGE:
+                    mImgSize = "large";
+                    break;
+            }
+            return this;
+        }
+
         public QueryManager build() {
             return new QueryManager(this);
+        }
+
+        public enum ImageSizes {
+            SMALL, MEDIUM, LARGE
         }
     }
 
@@ -67,12 +88,17 @@ public class QueryManager {
         mAlt = alt;
     }
 
+    public void setImgSize(String imgSize) {
+        mImgSize = imgSize;
+    }
+
     private QueryManager(Builder builder) {
         setKey(builder.mKey);
         setCx(builder.mCx);
         setSearchType(builder.mSearchType);
         setAlt(builder.mAlt);
         setQuery(builder.mQuery);
+        setImgSize(builder.mImgSize);
     }
 
     public URL getQueryUrl() throws MalformedURLException{
@@ -82,6 +108,7 @@ public class QueryManager {
         params.put("alt", mAlt == null ? "json" : mAlt);
         params.put("searchType", mSearchType);
         params.put("q", mQuery);
+        params.put("imgSize", mImgSize == null ? "medium" : mImgSize);
 
         return new URL(constructQuery(params));
     }

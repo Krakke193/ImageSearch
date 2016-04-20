@@ -42,6 +42,7 @@ public class ImageLoader extends AsyncTaskLoader<List<String>> {
         QueryManager queryManager = new QueryManager.Builder(Constants.API_KEY, Constants.CX, mQuery)
                 .setSearchType(SEARCH_TYPE)
                 .setResponseType(RESPONSE_TYPE)
+                .setImageSize(QueryManager.Builder.ImageSizes.LARGE)
                 .build();
 
         HttpURLConnection connection = null;
