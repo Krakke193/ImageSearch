@@ -21,6 +21,7 @@ public class ImageLoader extends AsyncTaskLoader<List<String>> {
     private static final String RESPONSE_TYPE = "json";
 
     private String mQuery;
+    private QueryManager.Builder.ImageSizes mImgSize;
 
     /**
      * Stores away the application context associated with context.
@@ -32,9 +33,10 @@ public class ImageLoader extends AsyncTaskLoader<List<String>> {
      *
      * @param context used to retrieve the application context.
      */
-    public ImageLoader(Context context, String query) {
+    public ImageLoader(Context context, String query, QueryManager.Builder.ImageSizes imageSize) {
         super(context);
         mQuery = query;
+        mImgSize = imageSize;
     }
 
     @Override
@@ -42,7 +44,7 @@ public class ImageLoader extends AsyncTaskLoader<List<String>> {
         QueryManager queryManager = new QueryManager.Builder(Constants.API_KEY, Constants.CX, mQuery)
                 .setSearchType(SEARCH_TYPE)
                 .setResponseType(RESPONSE_TYPE)
-                .setImageSize(QueryManager.Builder.ImageSizes.LARGE)
+                .setImageSize(mImgSize)
                 .build();
 
         HttpURLConnection connection = null;

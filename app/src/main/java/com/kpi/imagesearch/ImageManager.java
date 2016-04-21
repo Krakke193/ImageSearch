@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.support.annotation.Nullable;
 import android.util.Log;
 import android.util.LruCache;
 import android.view.View;
@@ -20,10 +21,11 @@ import java.net.URL;
  * Created by Andrey on 20/4/16.
  */
 public class ImageManager {
+    private static ImageManager sInstance;
 
     private LruCache<String, Bitmap> mMemoryCache;
 
-    public ImageManager() {
+    private ImageManager() {
 
         // Get max available VM memory, exceeding this amount will throw an
         // OutOfMemory exception. Stored in kilobytes as LruCache takes an
@@ -43,8 +45,13 @@ public class ImageManager {
         };
     }
 
+    public static ImageManager getInstance() {
+        if (sInstance == null) sInstance = new ImageManager();
+        return sInstance;
+    }
+
     public void loadImageToTarget(final WeakReference<ImageView> imageViewWeakReference,
-                                  final WeakReference<ViewGroup> progressBarHolderWeakReference,
+                                  @Nullable final WeakReference<ViewGroup> progressBarHolderWeakReference,
                                   final String imageUrl) {
 
         if (getBitmapFromMemCache(imageUrl) != null) {
@@ -52,13 +59,18 @@ public class ImageManager {
             return;
         }
 
-        progressBarHolderWeakReference.get().setVisibility(View.VISIBLE);
+        if (progressBarHolderWeakReference != null) {
+            progressBarHolderWeakReference.get().setVisibility(View.VISIBLE);
+        }
 
         final Handler handler = new Handler(Looper.getMainLooper()) {
             @Override
             public void handleMessage(Message msg) {
                 imageViewWeakReference.get().setImageBitmap((Bitmap) msg.obj);
-                progressBarHolderWeakReference.get().setVisibility(View.GONE);
+
+                if (progressBarHolderWeakReference != null) {
+                    progressBarHolderWeakReference.get().setVisibility(View.GONE);
+                }
             }
         };
 
@@ -94,10 +106,10 @@ public class ImageManager {
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Accept", "application/json");
 
-                BitmapFactory.Options options = new BitmapFactory.Options();
-                options.inSampleSize = 2;
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inSampleSize = 2;
 
-                Bitmap retBitmap = BitmapFactory.decodeStream(connection.getInputStream(), null, options);
+                Bitmap retBitmap = BitmapFactory.decodeStream(connection.getInputStream(), null, null);
 
                 addBitmapToMemoryCache(mImageUrl, retBitmap);
 

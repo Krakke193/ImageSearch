@@ -25,4 +25,25 @@
         android:text="@string/image_search"
         android:layout_alignParentBottom="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select images quality:"
+        android:textSize="16sp"
+        android:gravity="center|start"
+        android:layout_alignTop="@+id/sp_quality"
+        android:layout_toLeftOf="@+id/sp_quality"
+        android:layout_alignBottom="@+id/sp_quality"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <Spinner
+        android:id="@+id/sp_quality"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_below="@+id/et_search_param"
+        android:layout_alignRight="@+id/et_search_param"
+        android:layout_alignEnd="@+id/et_search_param"/>
+
 </RelativeLayout>

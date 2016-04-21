@@ -19,24 +19,37 @@ public class ThumbnailAdapter extends RecyclerView.Adapter<ThumbnailAdapter.Thum
     private List<String> mData;
 
     private ImageManager mImageManager;
+    private View.OnClickListener mOnClickListener;
 
     public ThumbnailAdapter() {
-        mImageManager = new ImageManager();
+        mImageManager = ImageManager.getInstance();
     }
 
     public void setData(List<String> data) {
         mData = data;
     }
 
+    public void setOnClickListener(View.OnClickListener onClickListener) {
+        mOnClickListener = onClickListener;
+    }
+
+    public List<String> getData() {
+        return mData;
+    }
+
     @Override
     public ThumbnailAdapter.ThumbnailViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_thumbnail, parent, false);
+
+        itemView.setOnClickListener(mOnClickListener);
+
         return new ThumbnailViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(final ThumbnailAdapter.ThumbnailViewHolder holder, int position) {
         final String urlStr = mData.get(position);
+
 
         holder.mTvLink.setText(urlStr);
         holder.mIvThumbnail.setImageDrawable(null);
