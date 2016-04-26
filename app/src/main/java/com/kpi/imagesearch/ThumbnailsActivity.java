@@ -89,7 +89,7 @@ public class ThumbnailsActivity extends AppCompatActivity
 
         String imgUrl = mThumbnailAdapter.getData().get(position);
 
-        FullImageActivity.startActivity(this, imgUrl);
+        FullscreenActivity.startActivity(this, imgUrl);
 //        startActivity(new Intent(this, FullscreenActivity.class));
     }
 }
