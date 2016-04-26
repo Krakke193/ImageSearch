@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name">ImageSearch</string>
-    <string name="enter_search_query">Enter search query</string>
+    <string name="app_name">Search</string>
+    <string name="enter_search_query">Enter search query here..</string>
     <string name="image_search">Image search!</string>
 
     <string name="title_activity_fullscreen">FullscreenActivity</string>
