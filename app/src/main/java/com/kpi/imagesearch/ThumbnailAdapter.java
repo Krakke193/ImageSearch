@@ -12,10 +12,11 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
- * Created by Andrey on 19/4/16.
+ * Created by Sasha on 19/4/16.
+ * Adapter class used to deliver data (image previews) into the responding activity class.
+ * {@link ThumbnailsActivity}
  */
 public class ThumbnailAdapter extends RecyclerView.Adapter<ThumbnailAdapter.ThumbnailViewHolder> {
-
     private List<String> mData;
 
     private ImageManager mImageManager;
@@ -49,7 +50,6 @@ public class ThumbnailAdapter extends RecyclerView.Adapter<ThumbnailAdapter.Thum
     @Override
     public void onBindViewHolder(final ThumbnailAdapter.ThumbnailViewHolder holder, int position) {
         final String urlStr = mData.get(position);
-
 
         holder.mTvLink.setText(urlStr);
         holder.mIvThumbnail.setImageDrawable(null);

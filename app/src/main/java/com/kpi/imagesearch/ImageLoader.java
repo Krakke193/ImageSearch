@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by Andrey on 18/4/16.
+ * Created by Sasha on 18/4/16.
+ * Class used to load image url from Google API.
  */
 public class ImageLoader extends AsyncTaskLoader<List<String>> {
     private static final String TAG = ImageLoader.class.getSimpleName();

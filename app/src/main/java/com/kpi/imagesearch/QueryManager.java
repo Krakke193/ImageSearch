@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * Created by Sasha on 17/4/16.
+ * This classed is used to construct query parameters.
  * Implementation of builder pattern to ensure easy-way expanding of query combinations.
  */
 public class QueryManager {

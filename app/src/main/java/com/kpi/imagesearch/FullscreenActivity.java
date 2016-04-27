@@ -215,10 +215,6 @@ public class FullscreenActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-
-
-
-
     private void saveImageToGallery() {
         new Thread(new Runnable() {
             @Override

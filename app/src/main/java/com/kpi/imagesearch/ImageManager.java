@@ -18,7 +18,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 /**
- * Created by Andrey on 20/4/16.
+ * Created by Sasha on 20/4/16.
+ * Class used to load images. It will also cache this images.
  */
 public class ImageManager {
     private static ImageManager sInstance;
@@ -105,9 +106,6 @@ public class ImageManager {
                 connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("Accept", "application/json");
-
-//                BitmapFactory.Options options = new BitmapFactory.Options();
-//                options.inSampleSize = 2;
 
                 Bitmap retBitmap = BitmapFactory.decodeStream(connection.getInputStream(), null, null);
 

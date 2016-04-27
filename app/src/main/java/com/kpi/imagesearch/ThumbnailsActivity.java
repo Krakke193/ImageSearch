@@ -15,7 +15,8 @@ import android.widget.RelativeLayout;
 import java.util.List;
 
 /**
- * Created by Andrey on 18/4/16.
+ * Created by Sasha on 18/4/16.
+ * This class is used to organize display logic of images' previews.
  */
 public class ThumbnailsActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<List<String>>, View.OnClickListener{
@@ -43,8 +44,6 @@ public class ThumbnailsActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_thumbnails);
-
-
 
         if (getIntent() != null) {
             mQueryParam = getIntent().getStringExtra(QUERY);
@@ -86,10 +85,7 @@ public class ThumbnailsActivity extends AppCompatActivity
     @Override
     public void onClick(View v) {
         int position = mRvThumbnails.getChildLayoutPosition(v);
-
         String imgUrl = mThumbnailAdapter.getData().get(position);
-
         FullscreenActivity.startActivity(this, imgUrl);
-//        startActivity(new Intent(this, FullscreenActivity.class));
     }
 }
